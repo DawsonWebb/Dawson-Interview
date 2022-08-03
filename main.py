@@ -33,7 +33,9 @@ def validateEMAIL(email):
         return False
 
 
+# login will take user input and send a POST request
 def login(email='', password=''):
+    # Adds Login to the end of the domain
     url = BASE_URL + "login"
 
     # Asks User in command line for their login information and loops if blank
@@ -73,6 +75,58 @@ def login(email='', password=''):
     # Test to see if request was incorrect
     elif 400 <= r.status_code <= 499:
         print(f'{r.json()["error"].capitalize()}')
+    else:
+        print(f'{r.status_code} - {r.text}')
+
+
+# get_users does a GET request to get the first page of user info and to see total pages
+# using total pages it sets the max pages to iterate through and grab all of the user data
+def get_users():
+    # Adds Login to the end of the domain
+    url = BASE_URL + "users"
+
+    # GET Request for the first page of Users
+    r = requests.get(url)
+    # Change the request type to JSON in a new variable
+    requestJSON = r.json()
+    
+    # Test to ensure a succesful GET request was performed
+    if 200 <= r.status_code <= 299:
+        print("Succesful Response on Page 1")
+        # Creating an User Dict to store the total number of users/pages as well as the user data
+        users = {
+            "total": 0,
+            "total_pages": 0,
+            "data": []
+        }
+
+        # Adds the 1st page of user data to the user dict
+        users["data"] += requestJSON["data"]
+        # Takes the Total Users and Total Pages given by the 1st page into the User Dict
+        users["total"] = r.json()["total"]
+        users["total_pages"] = r.json()["total_pages"]
+
+        # For loop to itterate through every possible page of users to pull every user data
+        for x in range(1, users["total_pages"]):
+            # Takes the users url and adds the page numbers
+            extraUrl = url + "?page=" + str(x+1)
+            # Perform a get request using the user page url
+            newR = requests.get(extraUrl)
+            # Converts request class type to json type
+            newRJson = newR.json()
+
+            # Checks status code for a succesful GET request
+            if 200 <= newR.status_code <= 299:
+                print(f'Succesful Response on Page {x+1}')
+                # Adds the User data from the current page to the existing Users dict
+                users["data"] += newRJson["data"]
+            elif 400 <= newR.status_code <= 499:
+                print(f'{newR.status_code}: {newRJson["error"].capitalize()}')
+        
+        # Prints out Total Users and Pages
+        print(f'\nTotal Users Found: {users["total"]}\nTotal Pages: {users["total_pages"]}')
+    elif 400 <= r.status_code <= 499:
+        print(f'{r.json()["error"].capitalize()}')
 
 
 # Main method that will run
@@ -80,12 +134,13 @@ def run():
     # Using a try catch to make keyboard interruptions better visually
     try:
         # Working Email and Password for testing purposes "eve.holt@reqres.in" "cityslicka"
-        login()
+        # login()
+        get_users()
     except KeyboardInterrupt:
         print('\n\nQuiting!')
         quit()
     else:
-        print('No exceptions are caught')
+        print('\nNo exceptions are caught')
 
 
 if __name__ == "__main__":
