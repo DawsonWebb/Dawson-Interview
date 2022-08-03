@@ -33,11 +33,8 @@ def validateEMAIL(email):
         return False
 
 
-def login():
+def login(email='', password=''):
     url = BASE_URL + "login"
-
-    email = ""
-    password = ""
 
     # Asks User in command line for their login information and loops if blank
     while email == "":
@@ -61,10 +58,6 @@ def login():
     # Printing a newline for command line formating purposes
     print()
 
-    # # Working Email and Password for testing purposes
-    # email = "eve.holt@reqres.in"
-    # password = "cityslicka"
-
     # DICT to store the user's email and passwords which will POST as a JSON
     userInfo = {
         "email": email,
@@ -86,6 +79,7 @@ def login():
 def run():
     # Using a try catch to make keyboard interruptions better visually
     try:
+        # Working Email and Password for testing purposes "eve.holt@reqres.in" "cityslicka"
         login()
     except KeyboardInterrupt:
         print('\n\nQuiting!')
