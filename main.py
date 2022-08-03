@@ -1,8 +1,13 @@
 import json
 import requests
+# Library for regex
 import re
+# Readline is used to better the command line so accidental keys (ex. arrow keys) arent placed in command line 
+import readline 
+
 
 BASE_URL = "https://reqres.in/api/"
+
 
 def validateJSON(jsonData):
     try:
@@ -11,6 +16,7 @@ def validateJSON(jsonData):
         return False
     return True
 
+
 # validateEMAIL will use regular expressions to determine if the email provided is a valid email format
 def validateEMAIL(email):
     # Regular Expression for email format (*@*.*)
@@ -18,13 +24,14 @@ def validateEMAIL(email):
 
     # If email is valid it will print stating that and return true
     if re.fullmatch(regex, email):
-        print("Email is valid\n")
+        # print("Email is valid\n")
         return True
 
     # When the email is invalid it states that and returns false
     else:
         print("Email is invalid! Please try again!\n")
         return False
+
 
 def login():
     url = BASE_URL + "login"
@@ -51,11 +58,14 @@ def login():
         if password == "":
             print("ERROR! No password was given. Please try again.\n")
 
+    # Printing a newline for command line formating purposes
+    print()
+
     # # Working Email and Password for testing purposes
     # email = "eve.holt@reqres.in"
     # password = "cityslicka"
 
-    # DICT to store the user's email and passwords
+    # DICT to store the user's email and passwords which will POST as a JSON
     userInfo = {
         "email": email,
         "password": password
@@ -65,23 +75,24 @@ def login():
     r = requests.post(url, json = userInfo)
 
     # Test to see if request was succesful
-    if r.status_code == 200:
+    if 200 <= r.status_code <= 299:
         print("Successful Login!")
-    elif r.status_code == 400:
+    # Test to see if request was incorrect
+    elif 400 <= r.status_code <= 499:
         print(f'{r.json()["error"].capitalize()}')
-        
-    
-    # # Print out the text and status for testing purposes
-    # print(f'{r.text} - {type(r.status_code)}')
 
 
+# Main method that will run
 def run():
-    url = 'https://reqres.in/api/users'
-    r = requests.get(url)
-    print(f'{r.text} - {r.status_code}')
-    r = r.json()
-    print(r)
+    # Using a try catch to make keyboard interruptions better visually
+    try:
+        login()
+    except KeyboardInterrupt:
+        print('\n\nQuiting!')
+        quit()
+    else:
+        print('No exceptions are caught')
 
 
 if __name__ == "__main__":
-    login()
+    run()
