@@ -33,6 +33,7 @@ def validateEMAIL(email):
         return False
 
 
+# login will take user input and send a POST request
 def login(email='', password=''):
     # Adds Login to the end of the domain
     url = BASE_URL + "login"
@@ -78,6 +79,8 @@ def login(email='', password=''):
         print(f'{r.status_code} - {r.text}')
 
 
+# get_users does a GET request to get the first page of user info and to see total pages
+# using total pages it sets the max pages to iterate through and grab all of the user data
 def get_users():
     # Adds Login to the end of the domain
     url = BASE_URL + "users"
