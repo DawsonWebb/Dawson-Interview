@@ -33,6 +33,19 @@ def validateEMAIL(email):
         return False
 
 
+def validateUserInput(userID=0):
+    while userID < 1:
+        # Try Catch to ensure it is a int not string
+        try:
+            userID = int(input("Enter the User ID: "))
+
+            # States to User when Value is below 1 since IDs start at 1
+            if userID < 1:
+                print("Please Enter a Valid User ID.\n")
+        except ValueError:
+            print("Please Enter a Number.\n")
+    return userID
+
 # login will take user input and send a POST request
 def login(email='', password=''):
     # Adds Login to the end of the domain
@@ -130,26 +143,14 @@ def get_users():
 
 
 # get_user does a GET request based on user input to get data on one user
-def get_user():
+def get_user(userID = 0):
     # Adds Users to the end of the domain
     url = BASE_URL + "users/"
-    # Sets userID to 0 since no userID is 0
-    userID = 0
-    # starts off at 0 which is not a valid user
+    # starts off at 0 which is not a valid user therefore false
     validUser = False
 
     while not validUser:
-        # Asks User for a valid User ID
-        while userID < 1:
-            # Try Catch to ensure it is a int not string
-            try:
-                userID = int(input("Enter the User ID: "))
-
-                # States to User when Value is below 1 since IDs start at 1
-                if userID < 1:
-                    print("Please Enter a Valid User ID.\n")
-            except ValueError:
-                print("Please Enter a Number.\n")
+        userID = validateUserInput()
 
         # Adds user ID to the end of the URL
         urlUser = url + str(userID)
@@ -223,6 +224,28 @@ def create_user(name='', job=''):
         print("Error! JSON is invalid!")
 
     
+# this will only delete a single user from the API
+def delete_user(userID = 0):
+    url = BASE_URL + "users/"
+
+    # starts off at 0 which is not a valid user therefore false
+    validUser = False
+
+    # Loops until valid user is given
+    while not validUser:
+        userID = validateUserInput()
+
+        # Adds user ID to the end of the URL
+        urlUser = url + str(userID)
+
+        r = requests.delete(urlUser)
+
+        if 200 <= r.status_code <= 299:
+            print(f'Status Code: {r.status_code} - Succes')
+            validUser = True
+        elif 400 <= r.status_code <= 499:
+            print(f'Error {r.status_code} {r.text}')
+
 
 
 # Main method that will run
@@ -233,7 +256,8 @@ def run():
         # login()
         # get_users()
         # get_user()
-        create_user()
+        # create_user()
+        delete_user()
     except KeyboardInterrupt:
         print('\n\nQuiting!')
         quit()
