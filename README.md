@@ -1,7 +1,16 @@
 # Dawson's SAS Interview
 **Dawson Webb coding project for SAS Interview**
 
-## Information / Requirements:
+## Table of Contents  
+[Requirements](#requirements)  
+[Docker File](#docker)  
+
+
+
+
+<a name="requirements"/>
+
+## Requirements:
 >BASE_URL = https://reqres.in/api
 #### Your test script should perform the following verifications, minimally:
 1. Attempt to login via a POST request to $BASE_URL/login
@@ -18,3 +27,26 @@
     - Verify proper response is received
 
 Your test application should report on the pass/fail status of each test.
+
+<a name="docker"/>
+
+## Docker File
+_Program will check to see if it is in a Docker Container when ran_
+```
+# DockerFile, Image, Container
+FROM python:3.8
+
+ADD main.py .
+
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENV IN_DOCKER_CONTAINER Yes
+
+CMD [ "python", "./main.py" ]
+
+```
