@@ -26,7 +26,7 @@
 5. DELETE a user
     - Verify proper response is received
 
-Your test application should report on the pass/fail status of each test.
+Test application should report on the pass/fail status of each test.
 
 <a name="docker"/>
 
