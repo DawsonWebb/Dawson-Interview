@@ -1,3 +1,5 @@
+import os
+SECRET_KEY = os.environ.get('IN_DOCKER_CONTAINER', False)
 import json
 import requests
 
@@ -174,13 +176,16 @@ def create_user(name='', job=''):
         requestJSON = r.json()
         print(f'User "{requestJSON["name"]}" with job "{requestJSON["job"]}" was created at {requestJSON["createdAt"]} with ID {requestJSON["id"]}\n')
 
-        displayJSON = ""
-        while displayJSON == "":
-            displayJSON = input("Do you want to display the full JSON (y/n): ").strip().lower()
-            if displayJSON != "y" and displayJSON != "n":
-                print("Please enter a valid response (y/n)\n")
-            elif displayJSON == "y":
-                print("\n"+json.dumps(r.json(), indent=4))
+        if SECRET_KEY:
+            print("\n"+json.dumps(r.json(), indent=4))
+        else:
+            displayJSON = ""
+            while displayJSON == "":
+                displayJSON = input("Do you want to display the full JSON (y/n): ").strip().lower()
+                if displayJSON != "y" and displayJSON != "n":
+                    print("Please enter a valid response (y/n)\n")
+                elif displayJSON == "y":
+                    print("\n"+json.dumps(r.json(), indent=4))
 
     else:
         print("Error! JSON is invalid!")
@@ -195,7 +200,8 @@ def delete_user(userID = 0):
 
     # Loops until valid user is given
     while not validUser:
-        userID = validate.validateUserInput()
+        if userID == 0:
+            userID = validate.validateUserInput()
 
         # Adds user ID to the end of the URL
         urlUser = url + str(userID)
@@ -207,3 +213,4 @@ def delete_user(userID = 0):
             validUser = True
         elif 400 <= r.status_code <= 499:
             print(f'Error {r.status_code} {r.text}')
+            userID = 0
