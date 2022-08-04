@@ -100,6 +100,7 @@ def get_users():
         
         # Prints out Total Users and Pages
         print(f'\nTotal Users Found: {users["total"]}\nTotal Pages: {users["total_pages"]}')
+        print()
     elif 400 <= r.status_code <= 499:
         print(f'{r.json()["error"].capitalize()}')
 

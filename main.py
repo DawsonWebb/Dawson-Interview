@@ -7,11 +7,12 @@ import user
 
 # Main method that will run
 def run():
+    print(f'Using {user.BASE_URL} for requests')
     # Using a try catch to make keyboard interruptions better visually
     try:
         selection = 0
 
-        while selection < 1 and selection > 5:
+        while selection < 1 or selection > 5:
             print("Select one of the Following:\n  1. Login\n  2. Get List of Users\n  3. Get Single User\n  4. Create a User\n  5. Delete a User")
             try:
                 selection = int(input("Please enter the corresponding number: ").strip())
