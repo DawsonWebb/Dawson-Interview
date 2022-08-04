@@ -82,7 +82,7 @@ def login(email='', password=''):
 # get_users does a GET request to get the first page of user info and to see total pages
 # using total pages it sets the max pages to iterate through and grab all of the user data
 def get_users():
-    # Adds Login to the end of the domain
+    # Adds Users to the end of the domain
     url = BASE_URL + "users"
 
     # GET Request for the first page of Users
@@ -129,13 +129,62 @@ def get_users():
         print(f'{r.json()["error"].capitalize()}')
 
 
+# get_user does a GET request based on user input to get data on one user
+def get_user():
+    # Adds Login to the end of the domain
+    url = BASE_URL + "users/"
+    # Sets userID to 0 since no userID is 0
+    userID = 0
+    # starts off at 0 which is not a valid user
+    validUser = False
+
+    while not validUser:
+        # Asks User for a valid User ID
+        while userID < 1:
+            # Try Catch to ensure it is a int not string
+            try:
+                userID = int(input("Enter the User ID: "))
+
+                # States to User when Value is below 1 since IDs start at 1
+                if userID < 1:
+                    print("Please Enter a Valid User ID.\n")
+            except ValueError:
+                print("Please Enter a Number.\n")
+
+        # Adds user ID to the end of the URL
+        urlUser = url + str(userID)
+
+        # GET Request for the User ID provided
+        r = requests.get(urlUser)
+
+        if validateJSON(r.text):
+            # Change the request type to JSON in a new variable
+            requestJSON = r.json()
+
+            if len(requestJSON) > 0 and 200 <= r.status_code <= 299:
+                validUser = True
+                # Print JSON data into a user friendly format
+                print(f'Found User: {requestJSON["data"]["first_name"]} {requestJSON["data"]["last_name"]} {requestJSON["data"]["email"]} ({requestJSON["data"]["id"]})')
+            elif 400 <= r.status_code <= 499:
+                userID = 0
+                print("User not found. Please try again.\n")
+
+            # print(requestJSON)
+            # print()
+                
+        else:
+            print("Invalid JSON")
+    
+
+
 # Main method that will run
 def run():
     # Using a try catch to make keyboard interruptions better visually
     try:
         # Working Email and Password for testing purposes "eve.holt@reqres.in" "cityslicka"
         # login()
-        get_users()
+        # get_users()
+        get_user()
     except KeyboardInterrupt:
         print('\n\nQuiting!')
         quit()
