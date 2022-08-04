@@ -2,9 +2,11 @@
 **Dawson Webb coding project for SAS Interview**
 
 ## Table of Contents  
-[Requirements](#requirements)  
-[Docker File](#docker)  
+[Requirements](#requirements)
 
+[Information](#info)
+
+[Docker File](#docker)
 
 
 
@@ -27,6 +29,17 @@
     - Verify proper response is received
 
 Test application should report on the pass/fail status of each test.
+
+<a name="info"/>
+
+## Information
+### Main.py
+Runs the test application. When running `python3 main.py` in the command line it will prompt the user with input to select which test to run. When running in a docker container the program will detect that and run through some sample test cases.
+### User.py
+#### &nbsp;&nbsp;&nbsp; Global Variables: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **SECRET_KEY** is a boolean that will check if the dockerfile env variable which if it is in a docker container will result in True. \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **BASE_URL** is a string of the API base URL "_https://reqres.in/api/_"
+
 
 <a name="docker"/>
 
