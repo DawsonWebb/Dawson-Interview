@@ -131,7 +131,7 @@ def get_users():
 
 # get_user does a GET request based on user input to get data on one user
 def get_user():
-    # Adds Login to the end of the domain
+    # Adds Users to the end of the domain
     url = BASE_URL + "users/"
     # Sets userID to 0 since no userID is 0
     userID = 0
@@ -174,6 +174,54 @@ def get_user():
                 
         else:
             print("Invalid JSON")
+
+
+
+# sends a POST request to create a user
+def create_user(name='', job=''):
+    # Adds Login to the end of the domain
+    url = BASE_URL + "users"
+
+    while name == "":
+        name = input("Please enter the new user's name: ")
+        if name == "" or any(char.isdigit() for char in name):
+            print("Please enter a valid name.\n")
+            # Sets name blank incase name contained numbers
+            name = ""
+    
+    while job == "":
+        job = input("Please enter the new user's job: ")
+        if job == "" or any(char.isdigit() for char in job):
+            print("Please enter a valid job.\n")
+            # Sets name blank incase name contained numbers
+            job = ""
+
+    # DICT to store the user's email and passwords which will POST as a JSON
+    userInfo = {
+        "name": name,
+        "job": job
+    }
+
+    # Submitting Post Request with userInfo to attempt to create a user
+    r = requests.post(url, json = userInfo)
+    # print(r.text)
+
+    if validateJSON(r.text):
+        print("JSON is valid.\n")
+        requestJSON = r.json()
+        print(f'User "{requestJSON["name"]}" with job "{requestJSON["job"]}" was created at {requestJSON["createdAt"]} with ID {requestJSON["id"]}\n')
+
+        displayJSON = ""
+        while displayJSON == "":
+            displayJSON = input("Do you want to display the full JSON (y/n): ").strip().lower()
+            if displayJSON != "y" and displayJSON != "n":
+                print("Please enter a valid response (y/n)\n")
+            elif displayJSON == "y":
+                print("\n"+json.dumps(r.json(), indent=4))
+
+    else:
+        print("Error! JSON is invalid!")
+
     
 
 
@@ -184,7 +232,8 @@ def run():
         # Working Email and Password for testing purposes "eve.holt@reqres.in" "cityslicka"
         # login()
         # get_users()
-        get_user()
+        # get_user()
+        create_user()
     except KeyboardInterrupt:
         print('\n\nQuiting!')
         quit()
