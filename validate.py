@@ -30,8 +30,7 @@ def validateUserInput(userID=0):
     while userID < 1:
         # Try Catch to ensure it is a int not string
         try:
-            userID = int(input("Enter the User ID: "))
-
+            userID = int(input("Enter the User ID: ").strip())
             # States to User when Value is below 1 since IDs start at 1
             if userID < 1:
                 print("Please Enter a Valid User ID.\n")
