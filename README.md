@@ -35,11 +35,24 @@ Test application should report on the pass/fail status of each test.
 ## Information
 ### Main.py
 Runs the test application. When running `python3 main.py` in the command line it will prompt the user with input to select which test to run. When running in a docker container the program will detect that and run through some sample test cases.
+
 ### User.py
-#### &nbsp;&nbsp;&nbsp; Global Variables: 
+#### &nbsp;&nbsp;&nbsp; Variables: 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **SECRET_KEY** is a boolean that will check if the dockerfile env variable which if it is in a docker container will result in True. \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **BASE_URL** is a string of the API base URL "_https://reqres.in/api/_"
+#### &nbsp;&nbsp;&nbsp; Methods: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **login**  will take user input or called variables and send a POST request to login \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **get_users**  does a GET request to get the first page of user info and to see total pages using total pages it sets the max pages to iterate \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; through and grab all of the user data \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **get_user** does a GET request based on user input to get data on one user \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **create_user** sends a POST request to create a user \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **delete_user** this will only delete a single user from the API \
 
+### Validate.py
+#### &nbsp;&nbsp;&nbsp; Methods:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **validateJSON** checks to make sure response is in a valid JSON format \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **validateEMAIL** uses regular expressions to determine if the email provided is a valid email format \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **validateUserInput** prompts user input to enter a valid user ID \
 
 <a name="docker"/>
 
