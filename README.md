@@ -42,8 +42,7 @@ Runs the test application. When running `python3 main.py` in the command line it
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **BASE_URL** is a string of the API base URL "_https://reqres.in/api/_"
 #### &nbsp;&nbsp;&nbsp; Methods: 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **login**  will take user input or called variables and send a POST request to login \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **get_users**  does a GET request to get the first page of user info and to see total pages using total pages it sets the max pages to iterate \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; through and grab all of the user data \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **get_users**  does a GET request to get the first page of user info and to see total pages using total pages it sets the max pages to iterate through and grab all of the user data \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **get_user** does a GET request based on user input to get data on one user \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **create_user** sends a POST request to create a user \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **delete_user** this will only delete a single user from the API \
