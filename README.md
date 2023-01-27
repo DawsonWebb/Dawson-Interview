@@ -1,5 +1,5 @@
-# Dawson's SAS Interview
-**Dawson Webb coding project for SAS Interview**
+# Dawson's Interview
+**Dawson Webb coding project for an Interview**
 
 ## Table of Contents  
 [Requirements](#requirements)
